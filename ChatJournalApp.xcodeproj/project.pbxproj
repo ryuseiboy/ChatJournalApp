@@ -14,6 +14,8 @@
 		F13C35362BEB549A00E7CB15 /* GenerativeAI-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F13C35352BEB549A00E7CB15 /* GenerativeAI-Info.plist */; };
 		F13C35382BEB561C00E7CB15 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35372BEB561C00E7CB15 /* APIKey.swift */; };
 		F13C353B2BEB578400E7CB15 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = F13C353A2BEB578400E7CB15 /* GoogleGenerativeAI */; };
+		F13C35412BEB5E6D00E7CB15 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35402BEB5E6D00E7CB15 /* ChatView.swift */; };
+		F13C35432BEB646C00E7CB15 /* DiaryEntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35422BEB646C00E7CB15 /* DiaryEntryDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		F13C352E2BEB540900E7CB15 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F13C35352BEB549A00E7CB15 /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
 		F13C35372BEB561C00E7CB15 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		F13C35402BEB5E6D00E7CB15 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		F13C35422BEB646C00E7CB15 /* DiaryEntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntryDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +62,9 @@
 			isa = PBXGroup;
 			children = (
 				F13C35272BEB540600E7CB15 /* ChatJournalAppApp.swift */,
-				F13C35292BEB540600E7CB15 /* ContentView.swift */,
+				F13C353E2BEB5E3900E7CB15 /* Views */,
+				F13C353F2BEB5E4600E7CB15 /* ViewModels */,
+				F13C353C2BEB5E2500E7CB15 /* Models */,
 				F13C35372BEB561C00E7CB15 /* APIKey.swift */,
 				F13C352B2BEB540900E7CB15 /* Assets.xcassets */,
 				F13C352D2BEB540900E7CB15 /* Preview Content */,
@@ -73,6 +79,30 @@
 				F13C352E2BEB540900E7CB15 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F13C353C2BEB5E2500E7CB15 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F13C353E2BEB5E3900E7CB15 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F13C35292BEB540600E7CB15 /* ContentView.swift */,
+				F13C35402BEB5E6D00E7CB15 /* ChatView.swift */,
+				F13C35422BEB646C00E7CB15 /* DiaryEntryDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F13C353F2BEB5E4600E7CB15 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +182,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F13C35412BEB5E6D00E7CB15 /* ChatView.swift in Sources */,
+				F13C35432BEB646C00E7CB15 /* DiaryEntryDetailView.swift in Sources */,
 				F13C352A2BEB540600E7CB15 /* ContentView.swift in Sources */,
 				F13C35382BEB561C00E7CB15 /* APIKey.swift in Sources */,
 				F13C35282BEB540600E7CB15 /* ChatJournalAppApp.swift in Sources */,
