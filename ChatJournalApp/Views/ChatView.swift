@@ -39,8 +39,12 @@ struct ChatView: View {
                         .background(Color(#colorLiteral(red: 0.2078431373, green: 0.7647058824, blue: 0.3450980392, alpha: 1))) // バックグラウンドカラー
                         .cornerRadius(10) // 角を丸くする
                     }
-                    .padding(.horizontal) // ボタンの水平方向のパディングを追加
-                    Spacer()
+                    .padding(.horizontal) //ボタンの水平方向のパディングを追加
+                    ScrollView {
+                        VStack(alignment: .leading){
+                            
+                        }
+                    }
                     
                     // テキスト入力フィールドと送信ボタンの表示
                     HStack {
