@@ -18,6 +18,8 @@ struct ChatView: View {
     let config = GenerationConfig(
       maxOutputTokens: 100
     )
+    //@State private var history:[ChatMessage] = [ChatMessage(role: .system, content: "今日は良い日でしたか？")]
+    @State private var history:[ModelContent] = [ModelContent(role: "model", parts: "今日は良い日でしたか？")]
     
     var body: some View {
         NavigationStack{
@@ -42,7 +44,9 @@ struct ChatView: View {
                     .padding(.horizontal) //ボタンの水平方向のパディングを追加
                     ScrollView {
                         VStack(alignment: .leading){
-                            
+                            ForEach(history.indices, id: \.self) { index in
+                                MessageView(message: history[index])
+                            }
                         }
                     }
                     
@@ -63,19 +67,32 @@ struct ChatView: View {
                         
                         // 送信ボタン
                         Button(action: {
-                            isCompleting = true
+                            //isCompleting = true
                             // ユーザーのメッセージをチャットに追加
-                            //chat.append(ChatMessage(role: .user, content: text))
+                            self.history.append(ModelContent(role: "user", parts: text))
+                            var tmp = text
                             text = "" // テキストフィールドをクリア
+                            print("tmp\(tmp)")
+                            print("text\(text)")
                             
-                            Task {
+                            let model = GenerativeModel(
+                                name: "gemini-pro",
+                                apiKey: APIKey.default,
+                                generationConfig: config
+                            )
+                            
+                            let chat = model.startChat(history: history)
+                            Task{
                                 do {
                                     // OpenAIの設定
-                                    
+                                    let response = try await chat.sendMessage(tmp)
                                     // チャットの生成
                                     
-                                    isCompleting = false
+                                    //isCompleting = false
                                     // AIのレスポンスをチャットに追加
+                                    if let gemini_text = response.text {
+                                        self.history.append(ModelContent(role: "model", parts: gemini_text))
+                                    }
                                 } catch {
                                     print("ERROR DETAILS - \(error)")
                                 }
@@ -107,23 +124,99 @@ struct ChatView: View {
         }
     }
     
-    func runGemini() async {
-        // モデルの準備
+
+    /*func runGemini(history: [ModelContent]) async {
+        //isCompleting = true
+        // ユーザーのメッセージをチャットに追加
+        self.history.append(ModelContent(role: "user", parts: text))
+        var tmp = text
+        text = "" // テキストフィールドをクリア
+        print("tmp\(tmp)")
+        print("text\(text)")
+        
         let model = GenerativeModel(
             name: "gemini-pro",
             apiKey: APIKey.default,
             generationConfig: config
         )
         
-        let chat = model.startChat(history: [])
-        // 推論の実行
+        let chat = model.startChat(history: history)
+        
         do {
-            let response = try await model.generateContent("日本一高い山は？")
-            if let text = response.text {
-                print(text)
+            // OpenAIの設定
+            let response = try await chat.sendMessage(tmp)
+            // チャットの生成
+            
+            //isCompleting = false
+            // AIのレスポンスをチャットに追加
+            if let gemini_text = response.text {
+                self.history.append(ModelContent(role: "model", parts: gemini_text))
             }
         } catch {
-            print("Error: \(error)")
+            print("ERROR DETAILS - \(error)")
+        }
+    }*/
+}
+
+struct MessageView: View {
+    var message: ModelContent
+    
+    var body: some View {
+        HStack {
+            if message.role == "user" {
+                Spacer()
+            } else {
+                // ユーザーでない場合はアバターを表示
+                AvatarView(imageName: "avatar")
+                    .padding(.trailing, 8)
+            }
+            VStack(alignment: .leading, spacing: 4) {
+                // メッセージのテキストを表示
+                Text(extractText(from: message))
+                    .font(.system(size: 14)) // フォントサイズを調整
+                    .foregroundColor(message.role == "user" ? .white : .black)
+                    .padding(10)
+                // ユーザーとAIのメッセージで背景色を変更
+                    .background(message.role == "user" ? Color(#colorLiteral(red: 0.2078431373, green: 0.7647058824, blue: 0.3450980392, alpha: 1)) : Color(#colorLiteral(red: 0.9098039216, green: 0.9098039216, blue: 0.9176470588, alpha: 1)))
+                    .cornerRadius(20) // 角を丸くする
+            }
+            .padding(.vertical, 5)
+            // ユーザーのメッセージの場合は右側にスペースを追加
+            if message.role != "user" {
+                Spacer()
+            }
+        }
+        .padding(.horizontal)
+    }
+    
+    func extractText(from modelContent: ModelContent) -> String {
+        return modelContent.parts.compactMap { part -> String? in
+            switch part {
+            case .text(let text):
+                return text
+            default:
+                return nil
+            }
+        }.joined(separator: " ")
+    }
+}
+
+// アバタービュー
+struct AvatarView: View {
+    var imageName: String
+    
+    var body: some View {
+        VStack {
+            // アバター画像を円形に表示
+            Image(systemName: "person.crop.circle")
+                .resizable()
+                .frame(width: 30, height: 30)
+                .clipShape(Circle())
+            
+            // AIの名前を表示
+            Text("AI")
+                .font(.caption) // フォントサイズを小さくするためのオプションです。
+                .foregroundColor(.black) // テキストの色を黒に設定します。
         }
     }
 }
