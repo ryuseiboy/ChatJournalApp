@@ -19,7 +19,7 @@ struct ChatView: View {
       maxOutputTokens: 100
     )
     //@State private var history:[ChatMessage] = [ChatMessage(role: .system, content: "今日は良い日でしたか？")]
-    @State private var history:[ModelContent] = [ModelContent(role: "model", parts: "今日は良い日でしたか？")]
+    @State private var history:[ModelContent] = [ModelContent(role: Optional("user"),parts:[ModelContent.Part.text("あなたはuserに対してフレンドリーに接してください。まずは「やっほー！今日は良い日だった？と尋ねてください。")]),ModelContent(role: Optional("model"), parts:[ModelContent.Part.text("やっほー！今日は良い日だった？")])]
     
     var body: some View {
         NavigationStack{
@@ -45,7 +45,9 @@ struct ChatView: View {
                     ScrollView {
                         VStack(alignment: .leading){
                             ForEach(history.indices, id: \.self) { index in
-                                MessageView(message: history[index])
+                                if index > 0 {
+                                    MessageView(message: history[index])
+                                }
                             }
                         }
                     }
@@ -67,36 +69,15 @@ struct ChatView: View {
                         
                         // 送信ボタン
                         Button(action: {
-                            //isCompleting = true
+                            isCompleting = true
                             // ユーザーのメッセージをチャットに追加
-                            self.history.append(ModelContent(role: "user", parts: text))
-                            var tmp = text
+                            let tmp = text
                             text = "" // テキストフィールドをクリア
-                            print("tmp\(tmp)")
-                            print("text\(text)")
-                            
-                            let model = GenerativeModel(
-                                name: "gemini-pro",
-                                apiKey: APIKey.default,
-                                generationConfig: config
-                            )
-                            
-                            let chat = model.startChat(history: history)
-                            Task{
-                                do {
-                                    // OpenAIの設定
-                                    let response = try await chat.sendMessage(tmp)
-                                    // チャットの生成
-                                    
-                                    //isCompleting = false
-                                    // AIのレスポンスをチャットに追加
-                                    if let gemini_text = response.text {
-                                        self.history.append(ModelContent(role: "model", parts: gemini_text))
-                                    }
-                                } catch {
-                                    print("ERROR DETAILS - \(error)")
-                                }
+                            Task {
+                                await runGemini(to: &history, txt: tmp)
+                                isCompleting = false
                             }
+                        
                         }) {
                             // 送信ボタンのデザイン
                             Image(systemName: "arrow.up.circle.fill")
@@ -125,37 +106,29 @@ struct ChatView: View {
     }
     
 
-    /*func runGemini(history: [ModelContent]) async {
-        //isCompleting = true
-        // ユーザーのメッセージをチャットに追加
-        self.history.append(ModelContent(role: "user", parts: text))
-        var tmp = text
-        text = "" // テキストフィールドをクリア
-        print("tmp\(tmp)")
-        print("text\(text)")
-        
+    func runGemini(to chatHistory: inout [ModelContent],txt:String) async {
+        // モデルの準備
         let model = GenerativeModel(
-            name: "gemini-pro",
-            apiKey: APIKey.default,
-            generationConfig: config
+            name: "models/gemini-pro",
+            apiKey: APIKey.default
         )
         
+        let history = chatHistory
+        // チャットの準備
         let chat = model.startChat(history: history)
         
         do {
-            // OpenAIの設定
-            let response = try await chat.sendMessage(tmp)
-            // チャットの生成
-            
-            //isCompleting = false
-            // AIのレスポンスをチャットに追加
-            if let gemini_text = response.text {
-                self.history.append(ModelContent(role: "model", parts: gemini_text))
+            // 質問応答 (1ターン目)
+            let response1 = try await chat.sendMessage(txt)
+            if let text = response1.text {
+                print(text)
+                chatHistory.append(ModelContent(role: Optional("user"), parts:[ModelContent.Part.text(txt)]))
+                chatHistory.append(ModelContent(role: Optional("model"), parts:[ModelContent.Part.text(text)]))
             }
         } catch {
-            print("ERROR DETAILS - \(error)")
+            print("Error: \(error)")
         }
-    }*/
+    }
 }
 
 struct MessageView: View {
@@ -172,7 +145,7 @@ struct MessageView: View {
             }
             VStack(alignment: .leading, spacing: 4) {
                 // メッセージのテキストを表示
-                Text(extractText(from: message))
+                Text(message.parts[0].text ?? "")
                     .font(.system(size: 14)) // フォントサイズを調整
                     .foregroundColor(message.role == "user" ? .white : .black)
                     .padding(10)
@@ -189,7 +162,8 @@ struct MessageView: View {
         .padding(.horizontal)
     }
     
-    func extractText(from modelContent: ModelContent) -> String {
+    //String型のみ抽出する関数
+    /*func extractText(from modelContent: ModelContent) -> String {
         return modelContent.parts.compactMap { part -> String? in
             switch part {
             case .text(let text):
@@ -198,7 +172,7 @@ struct MessageView: View {
                 return nil
             }
         }.joined(separator: " ")
-    }
+    }*/
 }
 
 // アバタービュー
