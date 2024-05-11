@@ -109,6 +109,9 @@ struct ChatView: View {
                     .foregroundColor(.blue) // ボタンのテキスト色
                 )
                 .interactiveDismissDisabled()
+                .onAppear(){
+                    journalText = ""
+                }
             }
         }
     }
