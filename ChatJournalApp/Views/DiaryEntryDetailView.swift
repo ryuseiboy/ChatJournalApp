@@ -6,16 +6,33 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DiaryEntryDetailView: View {
     @Binding var isPresentedB: Bool
+    var journalText: String
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack{
+            VStack{
+                Text(journalText)
+            }
+            .navigationBarItems(trailing: // ナビゲーションバーの左側にボタンを配置
+                                Button("完了") { // ボタンに表示されるテキストとアクション
+                // ボタンのアクション
+                isPresentedB = false
+                
+                //dismiss()
+            }
+                .foregroundColor(.blue) // ボタンのテキスト色
+            )
+        }
     }
 }
 
 struct DiaryEntryDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DiaryEntryDetailView(isPresentedB: .constant(true))
+        DiaryEntryDetailView(isPresentedB: .constant(true),journalText: "")
     }
 }

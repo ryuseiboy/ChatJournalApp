@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) var context
+    @Query private var journals: [Journal]
     @State private var isPresentedChat = false
     @State private var isPresentedB = false
+    @State private var journalText:String = ""
+    
     var body: some View {
         NavigationStack{
             ZStack{
@@ -37,10 +42,10 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $isPresentedChat) {
-                ChatView(isPresentedChat: $isPresentedChat, isPresentedB: $isPresentedB)
+                ChatView(isPresentedChat: $isPresentedChat, isPresentedB: $isPresentedB, journalText: $journalText)
             }
             .sheet(isPresented: $isPresentedB) {
-                DiaryEntryDetailView(isPresentedB: $isPresentedB)
+                DiaryEntryDetailView(isPresentedB: $isPresentedB, journalText: journalText)
             }
         }
     }

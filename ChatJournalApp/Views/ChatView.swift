@@ -11,10 +11,12 @@ import GoogleGenerativeAI
 
 
 struct ChatView: View {
+    @Environment(\.dismiss) private var dismiss
     @State private var text:String = ""
     @State private var isCompleting: Bool = false
     @Binding var isPresentedChat: Bool
     @Binding var isPresentedB: Bool
+    @Binding var journalText: String
     let config = GenerationConfig(
       maxOutputTokens: 100
     )
@@ -28,7 +30,11 @@ struct ChatView: View {
                     Button(action: {
                         // ボタンが押されたときのアクションをここに記述
                         print("Button tapped")
-                        isPresentedChat.toggle()
+                        //isPresentedChat.toggle()
+                        Task{
+                            await makeJournal(to: &history, outputText: &journalText)
+                        }
+                        dismiss()
                     }) {
                         HStack {
                             Image(systemName: "square.and.pencil") // アイコン
@@ -60,7 +66,8 @@ struct ChatView: View {
                             .font(.system(size: 15)) // フォントサイズを調整
                             .padding(8)
                             .padding(.horizontal, 10)
-                            .background(Color.white) // 入力フィールドの背景色を白に設定
+                            .background(Color(.systemBackground)) // 入力フィールドの背景色を白に設定
+                            .foregroundColor(Color(.label))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
                                     .stroke(Color.gray.opacity(0.5), lineWidth: 1.5)
@@ -72,10 +79,11 @@ struct ChatView: View {
                             isCompleting = true
                             // ユーザーのメッセージをチャットに追加
                             let tmp = text
-                            text = "" // テキストフィールドをクリア
+                             // テキストフィールドをクリア
                             Task {
                                 await runGemini(to: &history, txt: tmp)
                                 isCompleting = false
+                                text = ""
                             }
                         
                         }) {
@@ -124,6 +132,29 @@ struct ChatView: View {
                 print(text)
                 chatHistory.append(ModelContent(role: Optional("user"), parts:[ModelContent.Part.text(txt)]))
                 chatHistory.append(ModelContent(role: Optional("model"), parts:[ModelContent.Part.text(text)]))
+            }
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
+    func makeJournal(to chatHistory: inout [ModelContent], outputText: inout String) async {
+        // モデルの準備
+        let model = GenerativeModel(
+            name: "models/gemini-pro",
+            apiKey: APIKey.default
+        )
+        
+        let history = chatHistory
+        // チャットの準備
+        let chat = model.startChat(history: history)
+        
+        do {
+            // 質問応答 (1ターン目)
+            let response1 = try await chat.sendMessage("会話の内容をもとに日記を生成してください。")
+            if let text = response1.text {
+                print(text)
+                outputText = text
             }
         } catch {
             print("Error: \(error)")
@@ -197,6 +228,6 @@ struct AvatarView: View {
 
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView(isPresentedChat: .constant(true), isPresentedB: .constant(true))
+        ChatView(isPresentedChat: .constant(true), isPresentedB: .constant(true),journalText: .constant(""))
     }
 }
