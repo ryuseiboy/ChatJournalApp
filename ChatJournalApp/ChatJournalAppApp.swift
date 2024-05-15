@@ -13,5 +13,6 @@ struct ChatJournalAppApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Journal.self)
     }
 }

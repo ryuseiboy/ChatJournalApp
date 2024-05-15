@@ -17,6 +17,11 @@
 		F13C35412BEB5E6D00E7CB15 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35402BEB5E6D00E7CB15 /* ChatView.swift */; };
 		F13C35432BEB646C00E7CB15 /* DiaryEntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35422BEB646C00E7CB15 /* DiaryEntryDetailView.swift */; };
 		F13C35452BED176A00E7CB15 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35442BED176A00E7CB15 /* ChatMessage.swift */; };
+		F13C35492BEDDA4500E7CB15 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35482BEDDA4500E7CB15 /* TestView.swift */; };
+		F13C354B2BEDE4EB00E7CB15 /* Test2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C354A2BEDE4EB00E7CB15 /* Test2.swift */; };
+		F13C354D2BEE63CF00E7CB15 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C354C2BEE63CF00E7CB15 /* TestView2.swift */; };
+		F13C35512BEFD16900E7CB15 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35502BEFD16900E7CB15 /* Journal.swift */; };
+		F14697772BF32E1F0064A618 /* OpenAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = F14697762BF32E1F0064A618 /* OpenAIKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +35,10 @@
 		F13C35402BEB5E6D00E7CB15 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		F13C35422BEB646C00E7CB15 /* DiaryEntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntryDetailView.swift; sourceTree = "<group>"; };
 		F13C35442BED176A00E7CB15 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		F13C35482BEDDA4500E7CB15 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		F13C354A2BEDE4EB00E7CB15 /* Test2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test2.swift; sourceTree = "<group>"; };
+		F13C354C2BEE63CF00E7CB15 /* TestView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView2.swift; sourceTree = "<group>"; };
+		F13C35502BEFD16900E7CB15 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +47,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F13C353B2BEB578400E7CB15 /* GoogleGenerativeAI in Frameworks */,
+				F14697772BF32E1F0064A618 /* OpenAIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				F13C35272BEB540600E7CB15 /* ChatJournalAppApp.swift */,
+				F13C35522BEFDAF200E7CB15 /* Test */,
 				F13C353E2BEB5E3900E7CB15 /* Views */,
 				F13C353F2BEB5E4600E7CB15 /* ViewModels */,
 				F13C353C2BEB5E2500E7CB15 /* Models */,
@@ -87,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				F13C35442BED176A00E7CB15 /* ChatMessage.swift */,
+				F13C35502BEFD16900E7CB15 /* Journal.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -108,6 +120,16 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		F13C35522BEFDAF200E7CB15 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				F13C354A2BEDE4EB00E7CB15 /* Test2.swift */,
+				F13C354C2BEE63CF00E7CB15 /* TestView2.swift */,
+				F13C35482BEDDA4500E7CB15 /* TestView.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,6 +148,7 @@
 			name = ChatJournalApp;
 			packageProductDependencies = (
 				F13C353A2BEB578400E7CB15 /* GoogleGenerativeAI */,
+				F14697762BF32E1F0064A618 /* OpenAIKit */,
 			);
 			productName = ChatJournalApp;
 			productReference = F13C35242BEB540600E7CB15 /* ChatJournalApp.app */;
@@ -157,6 +180,7 @@
 			mainGroup = F13C351B2BEB540600E7CB15;
 			packageReferences = (
 				F13C35392BEB578400E7CB15 /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
+				F14697752BF32E1F0064A618 /* XCRemoteSwiftPackageReference "OpenAIKit" */,
 			);
 			productRefGroup = F13C35252BEB540600E7CB15 /* Products */;
 			projectDirPath = "";
@@ -185,12 +209,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F13C354B2BEDE4EB00E7CB15 /* Test2.swift in Sources */,
+				F13C35512BEFD16900E7CB15 /* Journal.swift in Sources */,
+				F13C35492BEDDA4500E7CB15 /* TestView.swift in Sources */,
 				F13C35412BEB5E6D00E7CB15 /* ChatView.swift in Sources */,
 				F13C35432BEB646C00E7CB15 /* DiaryEntryDetailView.swift in Sources */,
 				F13C352A2BEB540600E7CB15 /* ContentView.swift in Sources */,
 				F13C35452BED176A00E7CB15 /* ChatMessage.swift in Sources */,
 				F13C35382BEB561C00E7CB15 /* APIKey.swift in Sources */,
 				F13C35282BEB540600E7CB15 /* ChatJournalAppApp.swift in Sources */,
+				F13C354D2BEE63CF00E7CB15 /* TestView2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +352,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatJournalApp/Preview Content\"";
+				DEVELOPMENT_TEAM = G8U7LS5MT7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -352,6 +381,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatJournalApp/Preview Content\"";
+				DEVELOPMENT_TEAM = G8U7LS5MT7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -404,6 +434,14 @@
 				minimumVersion = 0.5.2;
 			};
 		};
+		F14697752BF32E1F0064A618 /* XCRemoteSwiftPackageReference "OpenAIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marcodotio/OpenAIKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -411,6 +449,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F13C35392BEB578400E7CB15 /* XCRemoteSwiftPackageReference "generative-ai-swift" */;
 			productName = GoogleGenerativeAI;
+		};
+		F14697762BF32E1F0064A618 /* OpenAIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F14697752BF32E1F0064A618 /* XCRemoteSwiftPackageReference "OpenAIKit" */;
+			productName = OpenAIKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

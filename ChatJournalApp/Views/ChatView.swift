@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import GoogleGenerativeAI
-
-
 
 struct ChatView: View {
     @Environment(\.dismiss) private var dismiss
@@ -17,11 +14,10 @@ struct ChatView: View {
     @Binding var isPresentedChat: Bool
     @Binding var isPresentedB: Bool
     @Binding var journalText: String
-    let config = GenerationConfig(
-      maxOutputTokens: 100
-    )
-    //@State private var history:[ChatMessage] = [ChatMessage(role: .system, content: "今日は良い日でしたか？")]
-    @State private var history:[ModelContent] = [ModelContent(role: Optional("user"),parts:[ModelContent.Part.text("あなたはuserに対してフレンドリーに接してください。まずは「やっほー！今日は良い日だった？と尋ねてください。")]),ModelContent(role: Optional("model"), parts:[ModelContent.Part.text("やっほー！今日は良い日だった？")])]
+    @State private var prompt: String = ""
+    @State private var responseText: String?
+    @State private var history:[ChatMessage] = []
+    @State private var chatStart:Bool = false
     
     var body: some View {
         NavigationStack{
@@ -32,8 +28,13 @@ struct ChatView: View {
                         print("Button tapped")
                         //isPresentedChat.toggle()
                         Task{
-                            await makeJournal(to: &history, outputText: &journalText)
+                            do {
+                                await generateText(prompt:"Generate the body of the diary based on the content of the conversation."){ response in
+                                        journalText = response
+                                    }
+                            }
                         }
+
                         dismiss()
                     }) {
                         HStack {
@@ -51,7 +52,7 @@ struct ChatView: View {
                     ScrollView {
                         VStack(alignment: .leading){
                             ForEach(history.indices, id: \.self) { index in
-                                if index > 0 {
+                                if history[index].content != nil {
                                     MessageView(message: history[index])
                                 }
                             }
@@ -79,11 +80,17 @@ struct ChatView: View {
                             isCompleting = true
                             // ユーザーのメッセージをチャットに追加
                             let tmp = text
-                             // テキストフィールドをクリア
-                            Task {
-                                await runGemini(to: &history, txt: tmp)
-                                isCompleting = false
-                                text = ""
+                            print(tmp)
+                            Task{
+                                do{
+                                    await generateText(prompt: tmp) { response in
+                                        responseText = response
+                                    }
+                                    history.append(ChatMessage(role: .user, content: text))
+                                    history.append(ChatMessage(role: .assistant, content: responseText))
+                                    isCompleting = false
+                                    text = ""
+                                }
                             }
                         
                         }) {
@@ -113,64 +120,83 @@ struct ChatView: View {
                     journalText = ""
                 }
             }
+            .onAppear(){
+                Task {
+                    do {
+                        await ChatLaunch(prompt: "会話を始めよう！") { response in
+                            responseText = response
+                        }
+                        history.append(ChatMessage(role: .assistant, content: responseText))
+                        print(responseText ?? "")
+                    }
+                }
+                journalText = ""
+            }
         }
     }
     
 
-    func runGemini(to chatHistory: inout [ModelContent],txt:String) async {
-        // モデルの準備
-        let model = GenerativeModel(
-            name: "models/gemini-pro",
-            apiKey: APIKey.default
-        )
+    func generateText(prompt: String, completion: @escaping (String) -> Void) async {
+        guard let url = URL(string: "http://127.0.0.1:5000/api/generate") else { return }
         
-        let history = chatHistory
-        // チャットの準備
-        let chat = model.startChat(history: history)
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        do {
-            // 質問応答 (1ターン目)
-            let response1 = try await chat.sendMessage(txt)
-            if let text = response1.text {
-                print(text)
-                chatHistory.append(ModelContent(role: Optional("user"), parts:[ModelContent.Part.text(txt)]))
-                chatHistory.append(ModelContent(role: Optional("model"), parts:[ModelContent.Part.text(text)]))
+        let body: [String: Any] = ["prompt": prompt]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data {
+                if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let text = jsonResponse["text"] as? String {
+                    DispatchQueue.main.async {
+                        completion(text)
+                    }
+                } else if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                          let error = jsonResponse["error"] as? String {
+                    DispatchQueue.main.async {
+                        completion(error)
+                    }
+                }
             }
-        } catch {
-            print("Error: \(error)")
-        }
+        }.resume()
     }
     
-    func makeJournal(to chatHistory: inout [ModelContent], outputText: inout String) async {
-        // モデルの準備
-        let model = GenerativeModel(
-            name: "models/gemini-pro",
-            apiKey: APIKey.default
-        )
+    func ChatLaunch(prompt:String, completion: @escaping (String) -> Void) async {
+        guard let url = URL(string: "http://127.0.0.1:5000/api/generate") else { return }
         
-        let history = chatHistory
-        // チャットの準備
-        let chat = model.startChat(history: history)
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        do {
-            // 質問応答 (1ターン目)
-            let response1 = try await chat.sendMessage("会話の内容をもとに日記を生成してください。")
-            if let text = response1.text {
-                print(text)
-                outputText = text
+        let body: [String: Any] = ["prompt": prompt]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data {
+                if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let text = jsonResponse["text"] as? String {
+                    DispatchQueue.main.async {
+                        completion(text)
+                    }
+                } else if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                          let error = jsonResponse["error"] as? String {
+                    DispatchQueue.main.async {
+                        completion(error)
+                    }
+                }
             }
-        } catch {
-            print("Error: \(error)")
-        }
+        }.resume()
     }
 }
 
 struct MessageView: View {
-    var message: ModelContent
+    var message: ChatMessage
     
     var body: some View {
         HStack {
-            if message.role == "user" {
+            if message.role == .user {
                 Spacer()
             } else {
                 // ユーザーでない場合はアバターを表示
@@ -179,34 +205,22 @@ struct MessageView: View {
             }
             VStack(alignment: .leading, spacing: 4) {
                 // メッセージのテキストを表示
-                Text(message.parts[0].text ?? "")
+                Text(message.content ?? "")
                     .font(.system(size: 14)) // フォントサイズを調整
-                    .foregroundColor(message.role == "user" ? .white : .black)
+                    .foregroundColor(message.role == .user ? .white : .black)
                     .padding(10)
                 // ユーザーとAIのメッセージで背景色を変更
-                    .background(message.role == "user" ? Color(#colorLiteral(red: 0.2078431373, green: 0.7647058824, blue: 0.3450980392, alpha: 1)) : Color(#colorLiteral(red: 0.9098039216, green: 0.9098039216, blue: 0.9176470588, alpha: 1)))
+                    .background(message.role == .user ? Color(#colorLiteral(red: 0.2078431373, green: 0.7647058824, blue: 0.3450980392, alpha: 1)) : Color(#colorLiteral(red: 0.9098039216, green: 0.9098039216, blue: 0.9176470588, alpha: 1)))
                     .cornerRadius(20) // 角を丸くする
             }
             .padding(.vertical, 5)
-            // ユーザーのメッセージの場合は右側にスペースを追加
-            if message.role != "user" {
+            // ユーザー以外のメッセージの場合は右側にスペースを追加
+            if message.role != .user {
                 Spacer()
             }
         }
         .padding(.horizontal)
     }
-    
-    //String型のみ抽出する関数
-    /*func extractText(from modelContent: ModelContent) -> String {
-        return modelContent.parts.compactMap { part -> String? in
-            switch part {
-            case .text(let text):
-                return text
-            default:
-                return nil
-            }
-        }.joined(separator: " ")
-    }*/
 }
 
 // アバタービュー

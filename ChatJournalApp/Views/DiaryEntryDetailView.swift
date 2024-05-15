@@ -33,6 +33,6 @@ struct DiaryEntryDetailView: View {
 
 struct DiaryEntryDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DiaryEntryDetailView(isPresentedB: .constant(true),journalText: "")
+        DiaryEntryDetailView(isPresentedB: .constant(true),journalText: "日記の内容")
     }
 }

@@ -10,6 +10,7 @@ import Foundation
 public enum ChatRole {
     case system
     case user
+    case assistant
 }
 
 public struct ChatMessage: Identifiable {
