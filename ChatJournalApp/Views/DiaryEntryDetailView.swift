@@ -12,21 +12,32 @@ struct DiaryEntryDetailView: View {
     @Binding var isPresentedB: Bool
     var journalText: String
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) var context
+    @State private var date: Date = Date()
     
     var body: some View {
         NavigationStack{
             VStack{
                 Text(journalText)
             }
-            .navigationBarItems(trailing: // ナビゲーションバーの左側にボタンを配置
-                                Button("完了") { // ボタンに表示されるテキストとアクション
-                // ボタンのアクション
-                isPresentedB = false
-                
-                //dismiss()
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    DatePicker(
+                        "Select Date",
+                        selection: $date,
+                        displayedComponents: [.date]
+                    )
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("完了") {
+                        // ボタンのアクション
+                        isPresentedB = false
+                    }
+                    .foregroundColor(.blue) // ボタンのテキスト色
+                }
             }
-                .foregroundColor(.blue) // ボタンのテキスト色
-            )
         }
     }
 }
