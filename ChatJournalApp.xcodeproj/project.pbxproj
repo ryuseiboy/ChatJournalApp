@@ -22,6 +22,7 @@
 		F13C354D2BEE63CF00E7CB15 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C354C2BEE63CF00E7CB15 /* TestView2.swift */; };
 		F13C35512BEFD16900E7CB15 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35502BEFD16900E7CB15 /* Journal.swift */; };
 		F14697772BF32E1F0064A618 /* OpenAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = F14697762BF32E1F0064A618 /* OpenAIKit */; };
+		F1A0BC382BF667C400B8B787 /* JournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A0BC372BF667C400B8B787 /* JournalListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		F13C354A2BEDE4EB00E7CB15 /* Test2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test2.swift; sourceTree = "<group>"; };
 		F13C354C2BEE63CF00E7CB15 /* TestView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView2.swift; sourceTree = "<group>"; };
 		F13C35502BEFD16900E7CB15 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journal.swift; sourceTree = "<group>"; };
+		F1A0BC372BF667C400B8B787 /* JournalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				F13C35292BEB540600E7CB15 /* ContentView.swift */,
 				F13C35402BEB5E6D00E7CB15 /* ChatView.swift */,
 				F13C35422BEB646C00E7CB15 /* DiaryEntryDetailView.swift */,
+				F1A0BC372BF667C400B8B787 /* JournalListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -215,6 +218,7 @@
 				F13C35412BEB5E6D00E7CB15 /* ChatView.swift in Sources */,
 				F13C35432BEB646C00E7CB15 /* DiaryEntryDetailView.swift in Sources */,
 				F13C352A2BEB540600E7CB15 /* ContentView.swift in Sources */,
+				F1A0BC382BF667C400B8B787 /* JournalListView.swift in Sources */,
 				F13C35452BED176A00E7CB15 /* ChatMessage.swift in Sources */,
 				F13C35382BEB561C00E7CB15 /* APIKey.swift in Sources */,
 				F13C35282BEB540600E7CB15 /* ChatJournalAppApp.swift in Sources */,

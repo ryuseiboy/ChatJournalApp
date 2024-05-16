@@ -20,6 +20,11 @@ struct ContentView: View {
             ZStack{
                 // ボタンを右下に配置
                 VStack {
+                    List {
+                        Section {
+                            JournalListView()
+                        }
+                    }
                     Spacer() // VStackとHStackのSpacerを使って、ボタンを右下に押しやる
 
                     HStack {
@@ -40,6 +45,7 @@ struct ContentView: View {
                         .padding() // ボタン自体の余白を調整
                     }
                 }
+                .navigationTitle("ジャーナル")
             }
             .sheet(isPresented: $isPresentedChat) {
                 ChatView(isPresentedChat: $isPresentedChat, isPresentedB: $isPresentedB, journalText: $journalText)

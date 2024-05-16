@@ -36,6 +36,7 @@ struct DiaryEntryDetailView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("完了") {
                         // ボタンのアクション
+                        saveJournal()
                         isPresentedB = false
                     }
                     .foregroundColor(.blue) // ボタンのテキスト色
@@ -53,6 +54,11 @@ struct DiaryEntryDetailView: View {
         formatter.dateFormat = "M月d日 E曜日" // フォーマットを指定
         formatter.locale = Locale(identifier: "ja_JP") // ロケールを日本語に設定
         return formatter.string(from: date)
+    }
+    
+    private func saveJournal() {
+        let data = Journal(date: date, text: journalText)
+        context.insert(data)
     }
 }
 
