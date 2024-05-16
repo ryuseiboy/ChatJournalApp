@@ -80,14 +80,14 @@ struct ChatView: View {
                             isCompleting = true
                             // ユーザーのメッセージをチャットに追加
                             let tmp = text
+                            history.append(ChatMessage(role: .user, content: text))
                             print(tmp)
                             Task{
                                 do{
                                     await generateText(prompt: tmp) { response in
                                         responseText = response
+                                        history.append(ChatMessage(role: .assistant, content: responseText))
                                     }
-                                    history.append(ChatMessage(role: .user, content: text))
-                                    history.append(ChatMessage(role: .assistant, content: responseText))
                                     isCompleting = false
                                     text = ""
                                 }
@@ -116,18 +116,14 @@ struct ChatView: View {
                     .foregroundColor(.blue) // ボタンのテキスト色
                 )
                 .interactiveDismissDisabled()
-                .onAppear(){
-                    journalText = ""
-                }
             }
             .onAppear(){
                 Task {
                     do {
                         await ChatLaunch(prompt: "会話を始めよう！") { response in
                             responseText = response
+                            history.append(ChatMessage(role: .assistant, content: responseText))
                         }
-                        history.append(ChatMessage(role: .assistant, content: responseText))
-                        print(responseText ?? "")
                     }
                 }
                 journalText = ""

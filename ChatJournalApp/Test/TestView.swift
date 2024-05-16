@@ -8,7 +8,7 @@
 import SwiftUI
 import GoogleGenerativeAI 
 
-struct TestView: View {
+/*struct TestView: View {
     @State var text = ""
     @State var isCompleting = false
     @State private var chatHistory:[ModelContent] = [ModelContent(role:  "system", parts: "今日は良い日でしたか？")]
@@ -58,4 +58,4 @@ struct TestView: View {
 #Preview {
     TestView()
         .environment(\.colorScheme, .dark)
-}
+}*/

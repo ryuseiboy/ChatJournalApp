@@ -10,7 +10,7 @@ import SwiftData
 
 struct DiaryEntryDetailView: View {
     @Binding var isPresentedB: Bool
-    var journalText: String
+    @Binding var journalText: String
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) var context
     @State private var date: Date = Date()
@@ -19,7 +19,8 @@ struct DiaryEntryDetailView: View {
     var body: some View {
         NavigationStack{
             VStack{
-                Text(journalText)
+                TextEditor(text:$journalText)
+                    .padding(.horizontal)
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -102,6 +103,6 @@ struct CustomDatePickerView: View {
 
 struct DiaryEntryDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DiaryEntryDetailView(isPresentedB: .constant(true),journalText: "日記の内容")
+        DiaryEntryDetailView(isPresentedB: .constant(true),journalText: .constant(""))
     }
 }

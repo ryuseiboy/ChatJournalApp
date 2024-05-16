@@ -45,7 +45,7 @@ struct ContentView: View {
                 ChatView(isPresentedChat: $isPresentedChat, isPresentedB: $isPresentedB, journalText: $journalText)
             }
             .sheet(isPresented: $isPresentedB) {
-                DiaryEntryDetailView(isPresentedB: $isPresentedB, journalText: journalText)
+                DiaryEntryDetailView(isPresentedB: $isPresentedB, journalText: $journalText)
             }
         }
     }
@@ -53,4 +53,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .modelContainer(for: Journal.self)
 }
