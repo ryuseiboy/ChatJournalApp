@@ -19,3 +19,12 @@ final class Journal: Identifiable {
         self.text = text
     }
 }
+
+extension Date {
+    func monthYearString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年 M月"
+        return formatter.string(from: self)
+    }
+}
+

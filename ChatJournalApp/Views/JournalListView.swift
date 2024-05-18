@@ -9,7 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct JournalListView: View {
+    @Environment(\.modelContext) private var context
     @Query private var journals: [Journal]
+    
     var body: some View {
         ForEach(journals) { journal in
             VStack{
@@ -23,7 +25,23 @@ struct JournalListView: View {
                     .foregroundStyle(.primary)
             }
         }
+        .onDelete(perform: deleteJournal)
     }
+    
+    func groupedByMonth(entries: [Journal]) -> [String: [Journal]] {
+        let grouped = Dictionary(grouping: entries) { entry in
+            entry.date.monthYearString()
+        }
+        return grouped
+    }
+    
+    private func deleteJournal(at offsets: IndexSet) {
+        for offset in offsets {
+            let journal = journals[offset]
+            context.delete(journal)
+        }
+    }
+
 }
 
 #Preview {

@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var isPresentedChat = false
     @State private var isPresentedB = false
     @State private var journalText:String = ""
-    
+
     var body: some View {
         NavigationStack{
             ZStack{
