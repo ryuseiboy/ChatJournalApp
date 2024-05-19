@@ -29,7 +29,7 @@ struct ChatView: View {
                         //isPresentedChat.toggle()
                         Task{
                             do {
-                                await generateText(prompt:"Generate the body of the diary based on the content of the conversation."){ response in
+                                await generateText(prompt:"Make it diary."){ response in
                                         journalText = response
                                     }
                             }

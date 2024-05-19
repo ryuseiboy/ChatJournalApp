@@ -16,7 +16,7 @@ struct JournalListView: View {
         ForEach(journals) { journal in
             VStack{
                 Text(journal.date.formatted())
-                    .font(.caption)
+                    .font(.body)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundStyle(.secondary)
                 Text(journal.text)
@@ -45,5 +45,7 @@ struct JournalListView: View {
 }
 
 #Preview {
-    JournalListView()
+    //JournalListView()
+    ContentView()
+        .modelContainer(for: Journal.self)
 }
