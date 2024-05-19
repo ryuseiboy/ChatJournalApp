@@ -23,7 +23,8 @@ struct ContentView: View {
                         JournalListView()
                     }
                 }
-                .listStyle(PlainListStyle()) // リストのスタイルをプレーンに設定 // リストの背景を透明に設定
+                .listStyle(PlainListStyle()) 
+                // リストのスタイルをプレーンに設定 // リストの背景を透明に設定
                 
                 VStack{
                     Spacer()

@@ -4,22 +4,28 @@ struct JournalPreview: View {
     let images: [String?]
 
     var body: some View {
-        VStack {
-            HStack {
-                Text("ああ")
-                    .font(.title)
-                    .padding()
-                Spacer()
-                Text("4月29日 月曜日")
-                    .padding()
+        ZStack {
+            RoundedRectangle(cornerRadius: 25)
+                .fill(Color.gray)
+                .frame(width: .infinity, height: 100)
+                .shadow(radius: 10)
+                .padding(.horizontal)
+            VStack{
+                Text("あ")
+                    .font(.body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(.secondary)
+                Text("a")
+                    .font(.body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(.primary)
             }
+            .padding(.horizontal)
         }
     }
 }
 
 
-struct JournalPreview_Previews: PreviewProvider {
-    static var previews: some View {
-        JournalPreview(images: <#[String?]#>)
-    }
+#Preview {
+        JournalPreview(images: ["image1"])
 }

@@ -49,16 +49,24 @@ struct ChatView: View {
                         .cornerRadius(10) // 角を丸くする
                     }
                     .padding(.horizontal) //ボタンの水平方向のパディングを追加
-                    ScrollView {
-                        VStack(alignment: .leading){
-                            ForEach(history.indices, id: \.self) { index in
-                                if history[index].content != nil {
-                                    MessageView(message: history[index])
+                    
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            VStack(alignment: .leading) {
+                                ForEach(history.indices, id: \.self) { index in
+                                    if history[index].content != nil {
+                                        MessageView(message: history[index])
+                                            .id(index)
+                                    }
+                                }
+                            }
+                            .onChange(of: history.count) { _ in
+                                if !history.isEmpty {
+                                    proxy.scrollTo(history.count - 1, anchor: .bottom)
                                 }
                             }
                         }
                     }
-                    
                     // テキスト入力フィールドと送信ボタンの表示
                     HStack {
                         // テキスト入力フィールド
@@ -120,7 +128,7 @@ struct ChatView: View {
             .onAppear(){
                 Task {
                     do {
-                        await ChatLaunch(prompt: "会話を始めよう！") { response in
+                        await generateText(prompt: "会話を始めよう！") { response in
                             responseText = response
                             history.append(ChatMessage(role: .assistant, content: responseText))
                         }
@@ -159,32 +167,6 @@ struct ChatView: View {
         }.resume()
     }
     
-    func ChatLaunch(prompt:String, completion: @escaping (String) -> Void) async {
-        guard let url = URL(string: "http://127.0.0.1:5000/api/generate") else { return }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let body: [String: Any] = ["prompt": prompt]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let data = data {
-                if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                   let text = jsonResponse["text"] as? String {
-                    DispatchQueue.main.async {
-                        completion(text)
-                    }
-                } else if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                          let error = jsonResponse["error"] as? String {
-                    DispatchQueue.main.async {
-                        completion(error)
-                    }
-                }
-            }
-        }.resume()
-    }
 }
 
 struct MessageView: View {
@@ -239,8 +221,6 @@ struct AvatarView: View {
     }
 }
 
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatView(isPresentedChat: .constant(true), isPresentedB: .constant(true),journalText: .constant(""))
-    }
+#Preview {
+    ChatView(isPresentedChat: .constant(true), isPresentedB: .constant(true),journalText: .constant(""))
 }
