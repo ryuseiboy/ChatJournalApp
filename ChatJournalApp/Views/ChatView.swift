@@ -17,6 +17,7 @@ struct ChatView: View {
     @Binding var isPresentedChat: Bool
     @Binding var isPresentedB: Bool
     @Binding var journalText: String
+    let modelName = "gemini-1.5-flash-latest"
     let config = GenerationConfig(
       maxOutputTokens: 100
     )
@@ -32,7 +33,7 @@ struct ChatView: View {
                         print("Button tapped")
                         //isPresentedChat.toggle()
                         Task{
-                            await makeJournal(to: &history, outputText: &journalText)
+                            await makeJournal(to: &history, outputText: &journalText, modelName: modelName)
                         }
                         dismiss()
                     }) {
@@ -90,7 +91,7 @@ struct ChatView: View {
                             let tmp = text
                              // テキストフィールドをクリア
                             Task {
-                                await runGemini(to: &history, txt: tmp)
+                                await runGemini(to: &history, txt: tmp, modelName: modelName)
                                 isCompleting = false
                                 text = ""
                             }
@@ -124,17 +125,17 @@ struct ChatView: View {
             }
             .onAppear(){
                 Task {
-                    await runGemini(to: &history, txt: "あなたはuserに対してフレンドリーに接してください。会話を始めましょう！")
+                    await runGemini(to: &history, txt: "あなたはuserに対してフレンドリーに接してください。会話を始めましょう！",modelName: modelName)
                 }
             }
         }
     }
     
 
-    func runGemini(to chatHistory: inout [ModelContent],txt:String) async {
+    func runGemini(to chatHistory: inout [ModelContent],txt:String,modelName:String) async {
         // モデルの準備
         let model = GenerativeModel(
-            name: "gemini-1.5-flash-latest",
+            name: modelName,
             apiKey: APIKey.default,
             systemInstruction: "## Role ##\n会話は全て日本語で行います\nYour role is to support me in writing a diary entry.\nYour goal is to complete the diary entry based on our conversation.\nPlease ensure to empathize with and affirm the other party.\n\n## Instructions ##\nFollow the instructions below from 1 to 8 step by step, executing and responding to one item at a time.\nYou should not execute multiple instructions at once.\nYou should not aim to achieve the goal in a single interaction.\n\n1. Ask the other party if they had a good day with a closed-ended question.\n\n2. Ask me what happened today.\n\n3. Based on my response, ask further questions to delve deeper into the topic. You should ask a maximum of 3 follow-up questions per topic. Do not execute multiple questions at once.\n\n4. Ask if anything else happened today.\n\n5. Based on my response, ask further questions to delve deeper into the topic. You should ask a maximum of 3 follow-up questions per topic. Do not execute multiple questions at once.\n\n6. Confirm if there were any other events today.\n\n7. If there were, ask further questions to delve deeper into the topic. You should ask a maximum of 3 follow-up questions per topic. Do not execute multiple questions at once. If there were no other events, instruct me to press the \"Diary\" button.\n\n8. When you receive the message \"会話の内容をもとに日記を生成してください。,\" summarize our conversation and create a diary-like entry. Use an advanced vocabulary, similar to that of a top-notch novelist, rather than merely repeating my words.\n"
         )
@@ -156,7 +157,7 @@ struct ChatView: View {
         }
     }
     
-    func makeJournal(to chatHistory: inout [ModelContent], outputText: inout String) async {
+    func makeJournal(to chatHistory: inout [ModelContent], outputText: inout String, modelName: String) async {
         // モデルの準備
         let model = GenerativeModel(
             name: "gemini-1.5-flash-latest",
