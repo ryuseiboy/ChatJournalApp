@@ -1,31 +1,73 @@
 import SwiftUI
 
-struct JournalPreview: View {
-    let images: [String?]
+struct CustomGroupBoxStyle: GroupBoxStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        VStack(alignment: .leading) {
+            configuration.label
+                .font(.headline)
+                .padding(.bottom, 5)
+            configuration.content
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 8).fill(Color.secondary.opacity(0.1)))
+        }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.primary, lineWidth: 1))
+    }
+}
 
+struct JournalPreview: View {
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 25)
-                .fill(Color.gray)
-                .frame(width: .infinity, height: 100)
-                .shadow(radius: 10)
-                .padding(.horizontal)
-            VStack{
-                Text("あ")
-                    .font(.body)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(.secondary)
-                Text("a")
-                    .font(.body)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(.primary)
+        VStack {
+            GroupBox(label: Label("User Information", systemImage: "person.circle")) {
+                VStack(alignment: .leading) {
+                    Text("Name: John Doe")
+                    Text("Age: 29")
+                    Text("Location: New York")
+                }
+                .padding()
             }
-            .padding(.horizontal)
+            .groupBoxStyle(DefaultGroupBoxStyle())
+            .padding()
+
+            GroupBox {
+                Text("This is another group without a label.")
+                    .padding()
+            }
+            .padding()
+            
+            GroupBox(label: Label("User Information", systemImage: "person.circle")) {
+                VStack(alignment: .leading) {
+                    Text("Name: John Doe")
+                    Text("Age: 29")
+                    Text("Location: New York")
+                }
+                .padding()
+            }
+            .groupBoxStyle(CustomGroupBoxStyle())
+            .padding()
+            
+            Grid {
+                GridRow {
+                    Text("1")
+                    Text("2")
+                    Text("3")
+                }
+                GridRow {
+                    Text("4")
+                    Text("5")
+                    Text("6")
+                }
+                GridRow {
+                    Text("7")
+                    Text("8")
+                    Text("9")
+                }
+            }
+            .padding()
         }
     }
 }
 
-
 #Preview {
-        JournalPreview(images: ["image1"])
+        JournalPreview()
 }
