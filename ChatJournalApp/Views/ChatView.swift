@@ -125,7 +125,7 @@ struct ChatView: View {
             }
             .onAppear(){
                 Task {
-                    await runGemini(to: &history, txt: "あなたはuserに対してフレンドリーに接してください。会話を始めましょう！",modelName: modelName)
+                    //await runGemini(to: &history, txt: "あなたはuserに対してフレンドリーに接してください。会話を始めましょう！",modelName: modelName)
                 }
             }
         }
