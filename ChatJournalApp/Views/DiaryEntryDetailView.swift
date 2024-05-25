@@ -21,6 +21,7 @@ struct DiaryEntryDetailView: View {
             VStack{
                 TextEditor(text:$journalText)
                     .padding(.horizontal)
+                    .background(.green)
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -31,6 +32,7 @@ struct DiaryEntryDetailView: View {
                                 showDatePicker.toggle()
                             }
                     }
+                    .background(.red)
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
@@ -44,7 +46,8 @@ struct DiaryEntryDetailView: View {
             }
             .sheet(isPresented: $showDatePicker) {
                 CustomDatePickerView(selectedDate: $date, isPresented: $showDatePicker)
-                .presentationDetents([.fraction(0.7)])            }
+                    .presentationDetents([.fraction(0.7)])
+            }
 
         }
     }
@@ -107,8 +110,6 @@ struct CustomDatePickerView: View {
     }
 }
 
-struct DiaryEntryDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        DiaryEntryDetailView(isPresentedB: .constant(true),journalText: .constant(""))
-    }
+#Preview {
+    DiaryEntryDetailView(isPresentedB: .constant(true),journalText: .constant(""))
 }

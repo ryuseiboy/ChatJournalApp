@@ -18,12 +18,10 @@ struct ContentView: View {
     var body: some View {
         NavigationStack{
             ZStack{
-                List {
-                    Section {
-                        JournalListView()
-                    }
+                List{
+                    JournalListView()
                 }
-                .listStyle(PlainListStyle()) 
+                .listStyle(PlainListStyle())
                 // リストのスタイルをプレーンに設定 // リストの背景を透明に設定
                 
                 VStack{

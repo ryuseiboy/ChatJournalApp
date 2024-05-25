@@ -12,18 +12,18 @@ struct JournalListView: View {
     @Environment(\.modelContext) private var context
     @Query private var journals: [Journal]
     
+    
     var body: some View {
-        ForEach(journals) { journal in
-            VStack{
-                Text(journal.date.formatted())
-                    .font(.body)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(.secondary)
-                Text(journal.text)
-                    .font(.body)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundStyle(.primary)
-            }
+        ForEach(journals.indices, id: \.self) { index in
+            /*Text(journal.date.formatted())
+             .font(.body)
+             .frame(maxWidth: .infinity, alignment: .leading)
+             .foregroundStyle(.secondary)*/
+            /*Text(journal.text)
+             .font(.body)
+             .frame(maxWidth: .infinity, alignment: .leading)
+             .foregroundStyle(.primary)*/
+            JournalPreview(diaryText: journals[index].text)
         }
         .onDelete(perform: deleteJournal)
     }
@@ -41,7 +41,7 @@ struct JournalListView: View {
             context.delete(journal)
         }
     }
-
+    
 }
 
 #Preview {

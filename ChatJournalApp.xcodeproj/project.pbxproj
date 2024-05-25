@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F10942BB2C0060B600508635 /* SwipeableStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10942BA2C0060B600508635 /* SwipeableStack.swift */; };
 		F13C35282BEB540600E7CB15 /* ChatJournalAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35272BEB540600E7CB15 /* ChatJournalAppApp.swift */; };
 		F13C352A2BEB540600E7CB15 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C35292BEB540600E7CB15 /* ContentView.swift */; };
 		F13C352C2BEB540900E7CB15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F13C352B2BEB540900E7CB15 /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F10942BA2C0060B600508635 /* SwipeableStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableStack.swift; sourceTree = "<group>"; };
 		F13C35242BEB540600E7CB15 /* ChatJournalApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatJournalApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F13C35272BEB540600E7CB15 /* ChatJournalAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatJournalAppApp.swift; sourceTree = "<group>"; };
 		F13C35292BEB540600E7CB15 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			children = (
 				F13C35442BED176A00E7CB15 /* ChatMessage.swift */,
 				F13C35502BEFD16900E7CB15 /* Journal.swift */,
+				F10942BA2C0060B600508635 /* SwipeableStack.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 				F13C354B2BEDE4EB00E7CB15 /* Test2.swift in Sources */,
 				F13C35512BEFD16900E7CB15 /* Journal.swift in Sources */,
 				F13C35492BEDDA4500E7CB15 /* TestView.swift in Sources */,
+				F10942BB2C0060B600508635 /* SwipeableStack.swift in Sources */,
 				F13C35412BEB5E6D00E7CB15 /* ChatView.swift in Sources */,
 				F13F85F22BF90BFB00DA0451 /* JournalPreview.swift in Sources */,
 				F13C35432BEB646C00E7CB15 /* DiaryEntryDetailView.swift in Sources */,

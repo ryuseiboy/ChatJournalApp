@@ -16,7 +16,7 @@ struct CustomGroupBoxStyle: GroupBoxStyle {
 }
 
 struct JournalPreview: View {
-    @State private var isExpanded: Bool = false
+    @State var isExpanded: Bool = false
     @State private var images: [String?] = []
     @State var diaryText: String
 
@@ -36,15 +36,16 @@ struct JournalPreview: View {
                     }
                 }
                 
-                Text(diaryText)
-                    .frame(maxWidth: .infinity)
-                    .lineLimit(isExpanded ? nil : 3)
-                    .padding()
-                    .onTapGesture {
-                        withAnimation {
+                VStack {
+                    Text(diaryText)
+                        .frame(maxWidth: .infinity)
+                        .lineLimit(isExpanded ? nil : 3)
+                        .padding()
+                        .onTapGesture {
                             isExpanded.toggle()
                         }
-                    }
+                }
+                .frame(maxWidth: .infinity)
             }
             .frame(maxWidth: .infinity)
         }
@@ -53,6 +54,7 @@ struct JournalPreview: View {
     }
 }
 
+
 #Preview {
-    JournalPreview(diaryText: "こんにちは")
+    JournalPreview(diaryText: "あああああ\nあああああ\n\nあああああ\nあああああ\n\nあああああ")
 }

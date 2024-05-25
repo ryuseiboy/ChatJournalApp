@@ -7,22 +7,32 @@
 
 import SwiftUI
 
-
 struct TestView: View {
-    let cards = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]
+    @State private var text: String = ""
     var body: some View {
-        ScrollView{
-            ForEach(0..<cards.count/3) { row in // create number of rows
-                HStack {
-                    ForEach(0..<3) { column in // create 3 columns
-                        Text(self.cards[row * 3 + column])
+        NavigationStack{
+            VStack {
+                TextEditor(text: $text)
+                    .background(.red)
+                    .padding(.top, 10)
+                
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Text("テスト")
+                            .font(.headline)
+                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0)) // ツールバーの高さを調整するためのパディング
                     }
+                    .background(Color.blue)
+                    .cornerRadius(8)
                 }
             }
+            .background(Color.green)
         }
     }
-
 }
+
 
 #Preview {
     TestView()

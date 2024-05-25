@@ -17,7 +17,7 @@ struct ChatView: View {
     @Binding var isPresentedChat: Bool
     @Binding var isPresentedB: Bool
     @Binding var journalText: String
-    let modelName = "gemini-1.5-flash-latest"
+    let modelName = "gemini-1.5-flash"
     let config = GenerationConfig(
       maxOutputTokens: 100
     )
@@ -125,7 +125,7 @@ struct ChatView: View {
             }
             .onAppear(){
                 Task {
-                    //await runGemini(to: &history, txt: "あなたはuserに対してフレンドリーに接してください。会話を始めましょう！",modelName: modelName)
+                    await runGemini(to: &history, txt: "あなたはuserに対してフレンドリーに接してください。会話を始めましょう！",modelName: modelName)
                 }
             }
         }
