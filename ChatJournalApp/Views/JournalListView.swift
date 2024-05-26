@@ -15,15 +15,21 @@ struct JournalListView: View {
     
     var body: some View {
         ForEach(journals.indices, id: \.self) { index in
-            /*Text(journal.date.formatted())
-             .font(.body)
-             .frame(maxWidth: .infinity, alignment: .leading)
-             .foregroundStyle(.secondary)*/
-            /*Text(journal.text)
-             .font(.body)
-             .frame(maxWidth: .infinity, alignment: .leading)
-             .foregroundStyle(.primary)*/
-            JournalPreview(diaryText: journals[index].text)
+            NavigationLink(value: journals[index]) {
+                VStack {
+                    Text(journals[index].date.formatted())
+                     .font(.body)
+                     .frame(maxWidth: .infinity, alignment: .leading)
+                     .foregroundStyle(.secondary)
+                    /*Text(journals[index].text)
+                     .font(.body)
+                     .frame(maxWidth: .infinity, alignment: .leading)
+                     .foregroundStyle(.primary)*/
+                    JournalPreview(diaryText: journals[index].text)
+                }
+            }
+            
+            
         }
         .onDelete(perform: deleteJournal)
     }

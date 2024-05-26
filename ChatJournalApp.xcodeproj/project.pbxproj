@@ -25,6 +25,7 @@
 		F13F85F22BF90BFB00DA0451 /* JournalPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13F85F12BF90BFB00DA0451 /* JournalPreview.swift */; };
 		F14697772BF32E1F0064A618 /* OpenAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = F14697762BF32E1F0064A618 /* OpenAIKit */; };
 		F1A0BC382BF667C400B8B787 /* JournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A0BC372BF667C400B8B787 /* JournalListView.swift */; };
+		F1CD05792C0375DF005D7D06 /* UpdateJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1CD05782C0375DF005D7D06 /* UpdateJournalView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		F13C35502BEFD16900E7CB15 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journal.swift; sourceTree = "<group>"; };
 		F13F85F12BF90BFB00DA0451 /* JournalPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPreview.swift; sourceTree = "<group>"; };
 		F1A0BC372BF667C400B8B787 /* JournalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListView.swift; sourceTree = "<group>"; };
+		F1CD05782C0375DF005D7D06 /* UpdateJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateJournalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				F13C35422BEB646C00E7CB15 /* DiaryEntryDetailView.swift */,
 				F1A0BC372BF667C400B8B787 /* JournalListView.swift */,
 				F13F85F12BF90BFB00DA0451 /* JournalPreview.swift */,
+				F1CD05782C0375DF005D7D06 /* UpdateJournalView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				F1A0BC382BF667C400B8B787 /* JournalListView.swift in Sources */,
 				F13C35452BED176A00E7CB15 /* ChatMessage.swift in Sources */,
 				F13C35382BEB561C00E7CB15 /* APIKey.swift in Sources */,
+				F1CD05792C0375DF005D7D06 /* UpdateJournalView.swift in Sources */,
 				F13C35282BEB540600E7CB15 /* ChatJournalAppApp.swift in Sources */,
 				F13C354D2BEE63CF00E7CB15 /* TestView2.swift in Sources */,
 			);

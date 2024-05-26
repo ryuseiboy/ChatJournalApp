@@ -22,6 +22,9 @@ struct ContentView: View {
                     JournalListView()
                 }
                 .listStyle(PlainListStyle())
+                .navigationDestination(for: Journal.self) { journal in
+                    UpdateJournalView(journal: journal)
+                }
                 // リストのスタイルをプレーンに設定 // リストの背景を透明に設定
                 
                 VStack{
