@@ -12,23 +12,33 @@ struct UpdateJournalView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @Bindable var journal: Journal
+    @State private var showDatePicker = false
     
     var body: some View {
         Form {
-            Section("Date") {
-                DatePicker(selection: $journal.date, displayedComponents: .date) {
-                    Text("日付")
-                }
-            }
-            
             Section("Content") {
                 TextEditor(text: $journal.text)
                     .frame(height: 400)
             }
         }
-        .navigationTitle("日記の更新")
+        .navigationTitle(formattedDate)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            
+            ToolbarItem(placement: .automatic) {
+                Button(action: {
+                    showDatePicker.toggle()
+                }) {
+                    Image(systemName: "chevron.down")
+                        //.font(.largeTitle) // アイコンのサイズ調整
+                        .foregroundColor(.black) // アイコンの色
+                        .padding(.trailing, 29.0)
+                        //.padding() // パディングでアイコン周りの余白を調整
+                        //.background(Color.green) // 背景色
+                        //.clipShape(Circle()) // 円形にクリップ
+                        //.shadow(radius: 10) // 影を追加
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button("更新"){
                     updateJournal()
@@ -36,6 +46,17 @@ struct UpdateJournalView: View {
                 }
             }
         }
+        .sheet(isPresented: $showDatePicker) {
+            CustomDatePickerView(selectedDate: $journal.date, isPresented: $showDatePicker)
+                .presentationDetents([.fraction(0.7)])
+        }
+    }
+    
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "M月d日 E曜日" // フォーマットを指定
+        formatter.locale = Locale(identifier: "ja_JP") // ロケールを日本語に設定
+        return formatter.string(from: journal.date)
     }
     
     private func updateJournal() {

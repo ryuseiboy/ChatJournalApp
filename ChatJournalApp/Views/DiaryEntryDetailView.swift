@@ -19,12 +19,19 @@ struct DiaryEntryDetailView: View {
     var body: some View {
         NavigationStack{
             VStack{
-                TextEditor(text:$journalText)
-                    .padding(.horizontal)
-                    .background(.green)
+                Form{
+                    Section("Content") {
+                        TextEditor(text:$journalText)
+                            .frame(height: 400)
+                            
+                    }
+                }
+                
             }
+            .navigationTitle(formattedDate)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .principal) {
+                /*ToolbarItem(placement: .) {
                     HStack {
                         Text(formattedDate)
                             .font(.headline)
@@ -33,7 +40,23 @@ struct DiaryEntryDetailView: View {
                             }
                     }
                     .background(.red)
+                }*/
+                
+                ToolbarItem(placement: .automatic) {
+                    Button(action: {
+                        showDatePicker.toggle()
+                    }) {
+                        Image(systemName: "chevron.down")
+                            //.font(.largeTitle) // アイコンのサイズ調整
+                            .foregroundColor(.black) // アイコンの色
+                            .padding(.trailing, 29.0)
+                            //.padding() // パディングでアイコン周りの余白を調整
+                            //.background(Color.green) // 背景色
+                            //.clipShape(Circle()) // 円形にクリップ
+                            //.shadow(radius: 10) // 影を追加
+                    }
                 }
+                
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("完了") {
@@ -98,7 +121,8 @@ struct CustomDatePickerView: View {
                 }
                 .padding()
             }
-            .navigationBarTitle(Text(formattedDate), displayMode: .inline)
+            .navigationBarTitle(Text(formattedDate))
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 
