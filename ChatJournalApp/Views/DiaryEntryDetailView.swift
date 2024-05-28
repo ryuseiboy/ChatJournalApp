@@ -66,6 +66,15 @@ struct DiaryEntryDetailView: View {
                     }
                     .foregroundColor(.blue) // ボタンのテキスト色
                 }
+                
+                ToolbarItem(placement: .keyboard) {
+                    Button(action: {
+                        
+                    }) {
+                        Image(systemName: "photo")
+                            .foregroundColor(.black)
+                    }
+                }
             }
             .sheet(isPresented: $showDatePicker) {
                 CustomDatePickerView(selectedDate: $date, isPresented: $showDatePicker)
